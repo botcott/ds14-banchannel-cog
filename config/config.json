@@ -1,4 +1,5 @@
 {
-    "ban_channel_id": 1234567890123456789,
-    "high_reaper_role_id": 1234567890123456789
+    "ban_channel_id": 11111111111111,
+    "high_reaper_role_id": 1072220899748610098,
+    "skip_roles": [1158781365723070524]
 }
