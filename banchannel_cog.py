@@ -9,6 +9,7 @@ with open(f"{os.path.dirname(__file__)}/config/config.json", "r", encoding="utf-
 
 BAN_CHANNEL_ID = int(cfg["ban_channel_id"])
 HIGH_REAPER_ROLE_ID = int(cfg["high_reaper_role_id"])
+SKIP_ROLES = list(cfg["skip_roles"])
 BAN_REASON = "Отправка сообщения в BAN CHANNEL"
 
 logger = logging.getLogger(__name__)
@@ -22,10 +23,16 @@ class BanChannelCog(commands.Cog):
     async def on_message(self, message):
         if message.channel.id != BAN_CHANNEL_ID or message.author.bot:
             return
-
+        
         guild = message.guild
         user = message.author
         high_reaper = guild.get_role(HIGH_REAPER_ROLE_ID)
+
+        # Скип роли Главного Инженера
+        for role_id in SKIP_ROLES:
+            role = guild.get_role(role_id)
+            if role and role in user.roles:
+                return
 
         if not high_reaper:
             self.logger.error(f"Роль с ID {HIGH_REAPER_ROLE_ID} не найдена на сервере {guild.id}")
